@@ -53,7 +53,7 @@ void hw_lpm_set_wake_state(uint8_t wake_assert);
 #if (SCO_CFG_INCLUDED == TRUE)
 void hw_sco_config(void);
 #endif
-void vnd_load_conf(const char *p_path);
+int vnd_load_conf(const char *p_path);
 #if (HW_END_WITH_HCI_RESET == TRUE)
 void hw_epilog_process(void);
 #endif
@@ -123,7 +123,9 @@ static int init(const bt_vendor_callbacks_t* p_cb, unsigned char *local_bdaddr)
     userial_vendor_init();
     upio_init();
 
-    vnd_load_conf(VENDOR_LIB_CONF_FILE);
+    int ret = vnd_load_conf(VENDOR_LIB_CONF_FILE);
+    if (ret)
+        ret = vnd_load_conf(VENDOR_LIB_CONF_FILE2);
 
     /* store reference to user callbacks */
     bt_vendor_cbacks = (bt_vendor_callbacks_t *) p_cb;

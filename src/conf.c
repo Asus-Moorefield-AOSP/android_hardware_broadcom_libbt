@@ -96,7 +96,7 @@ static const conf_entry_t conf_table[] = {
 ** Returns         None
 **
 *******************************************************************************/
-void vnd_load_conf(const char *p_path)
+int vnd_load_conf(const char *p_path)
 {
     FILE    *p_file;
     char    *p_name;
@@ -144,10 +144,12 @@ void vnd_load_conf(const char *p_path)
         }
 
         fclose(p_file);
+        return 0;
     }
     else
     {
         ALOGI( "vnd_load_conf file >%s< not found", p_path);
+        return 1;
     }
 }
 
